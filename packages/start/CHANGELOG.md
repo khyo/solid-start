@@ -1,5 +1,49 @@
 # @solidjs/start
 
+## 1.1.3
+
+### Patch Changes
+
+- ffd7cba: fix nested route with escaping resolved incorrectly (#1829).
+  before `/routes/nested/(ignored)route.tsx` resolved to `/nestedroute`,
+  and now it resolves to `/nested/route`.
+
+## 1.1.2
+
+### Patch Changes
+
+- 0c9bc47: Fix issue with anonymous default exports
+- 26e97be: Fix ssr for tanstack router
+
+## 1.1.1
+
+### Patch Changes
+
+- efd762e: Bump tanstack server functions plugin
+  This fixes `export const` in top-level `"use server"` files.
+  The bundler warning for top-level `"use server"` is still there, but still code-removal works.
+
+## 1.1.0
+
+### Minor Changes
+
+- 4ec5d9b: - Added "OPTIONS" to the HTTP_METHODS array in packages/start/config/fs-router.js.
+  I made this change so developers can handle preflight OPTIONS requests when using SolidStart as a public facing REST API.
+  Existing users will not have to change their code. This change only adds an additional feature.
+- b434665: Vite 6 support
+- 600c115: move the RequestEventLocals definition into the App namespace for easier end user retyping
+
+### Patch Changes
+
+- 00c6d33: update vinxi to 0.5.3
+- df32b0d: Await internal `sendWebResponse` calls for middlewares that return responses.
+- cda037b: Return `404` when server-function is not found
+- a97093f: Move `getServerFunctionMeta` from `@solidjs/start/server` to `@solidjs/start` to fix circular import issues.
+
+  The old export at `@solidjs/start/server` still exists, but is **deprecated** and will be removed in a future release.
+
+- 5a166a4: Adopt tanstack server functions plugin
+
 ## 1.0.11
 
 ### Patch Changes

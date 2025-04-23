@@ -1,0 +1,58 @@
+name: 🧪 Tests
+
+on:
+  workflow_dispatch:
+  pull_request:
+    branches: [main]
+  push:
+    branches: [main]
+
+jobs:
+  tests:
+    name: "🧪 Tests"
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v3
+      - uses: pnpm/action-setup@v4
+
+      - name: Use Node.js from nvmrc
+        uses: actions/setup-node@v4
+        with:
+          node-version-file: ".nvmrc"
+          registry-url: "https://registry.npmjs.org"
+          cache: "pnpm"
+
+      - name: Install project dependencies
+        run: pnpm i
+
+      - name: Install Cypress binary
+        run: pnpm exec cypress install
+
+      - name: Build SolidStart
+        run: pnpm --filter @solidjs/start build
+
+      - name: Build Test Project
+        run: pnpm --filter tests build
+
+      - name: Run unit tests
+        run: pnpm --filter tests unit:ci
+
+      - name: E2E Chromium
+        uses: cypress-io/github-action@v6
+        with:
+          project: ./packages/tests
+          install: false
+          start: pnpm --filter tests start --host 127.0.0.1 --port 3000
+          wait-on: 'http://127.0.0.1:3000'
+          browser: chromium
+
+      - name: E2E Firefox
+        uses: cypress-io/github-action@v6
+        with:
+          project: ./packages/tests
+          install: false
+          start: pnpm --filter tests start --host 127.0.0.1 --port 3000
+          wait-on: 'http://127.0.0.1:3000'
+          browser: firefox
+
+

@@ -26,6 +26,7 @@ node_modules
 
 .tmp
 test/playwright-report
+tests/server-function/cypress/screenshots
 
 # Temp
 gitignore
@@ -48,3 +49,6 @@ vite.config.ts.timestamp*
 
 .nitro
 .output
+
+# ignore cypress screenshots
+**/cypress/screenshots
